@@ -40,3 +40,13 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Ignore VS files
+.vs/
+*.user
+*.suo
+
+# Angular build
+dist/
+node_modules/
+.angular/

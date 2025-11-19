@@ -1,0 +1,11 @@
+<h2>Your Saved Links</h2>
+
+
+<div *ngFor="let link of links" class="link-card">
+  <a [href]="link.url" target="_blank">{{ link.title || link.url }}</a>
+  <p>{{ link.description }}</p>
+  <small>{{ link.category }}</small>
+</div>
+
+<a routerLink="/links/add" class="btn">+ Add Link</a>
+
