@@ -1,5 +1,23 @@
-<nav>
-  <a routerLink="/links">Links</a>
-</nav>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2 class="logo">SocialDrive</h2>
 
-<router-outlet></router-outlet>
+    <button class="add-btn" routerLink="/links/add">
+      + Add Link
+    </button>
+
+    <nav class="menu">
+      <a routerLink="/links" routerLinkActive="active">All Links</a>
+      <a routerLink="/category/design">Design</a>
+      <a routerLink="/category/ui">UI</a>
+      <a routerLink="/category/inspiration">Inspiration</a>
+      <a routerLink="/category/productivity">Productivity</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
