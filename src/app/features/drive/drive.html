@@ -1,4 +1,6 @@
 <div class="drive-shell">
+
+  <!-- HEADER -->
   <header class="drive-header">
     <div class="logo">SocialDrive</div>
 
@@ -20,8 +22,8 @@
       </div>
 
       <div class="folder-grid">
-
-        <!-- ALL LINKS pseudo-folder -->
+        
+        <!-- ALL LINKS -->
         <button
           class="folder-card"
           [class.folder-card--active]="!selectedFolderId"
@@ -47,7 +49,7 @@
       </div>
     </section>
 
-    <!-- LINKS SECTION -->
+    <!-- LINKS -->
     <section class="section">
       <div class="section-header">
         <h2>{{ selectedFolderName }}</h2>
@@ -59,60 +61,55 @@
 
         <div *ngIf="links.length; else emptyState" class="link-grid">
 
-          <!-- LINK CARD (clickable entire area except delete) -->
-          <a
+          <!-- CARD (now <div>, not <a>) -->
+          <div
             class="link-card"
             *ngFor="let link of links; trackBy: trackById"
-            [href]="link.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            (click)="openLink(link)"
           >
 
-            <!-- IMAGE -->
-            <div
-              class="link-image"
-              [class.link-image--empty]="!link.imageUrl"
-              [style.background-image]="
-                link.imageUrl ? 'url(' + link.imageUrl + ')' : 'none'
-              "
-            >
-              <span *ngIf="!link.imageUrl" class="link-initial">
-                {{ (link.title || link.url) | slice : 0 : 1 }}
-              </span>
+            <!-- CLICK AREA -->
+            <div class="link-click-area" (click)="openLink(link)">
+              <!-- IMAGE -->
+              <div
+                class="link-image"
+                [class.link-image--empty]="!link.imageUrl"
+                [style.background-image]="
+                  link.imageUrl ? 'url(' + link.imageUrl + ')' : 'none'
+                "
+              >
+                <span *ngIf="!link.imageUrl" class="link-initial">
+                  {{ (link.title || link.url) | slice : 0 : 1 }}
+                </span>
+              </div>
+
+              <!-- TEXT -->
+              <div class="link-body">
+                <div class="link-title" [title]="link.title || link.url">
+                  {{ link.title || link.url }}
+                </div>
+                <div class="link-url">{{ link.url }}</div>
+              </div>
             </div>
 
-            <!-- TEXT -->
-            <div class="link-body">
-              <div class="link-title" [title]="link.title || link.url">
-                {{ link.title || link.url }}
-              </div>
-              <div class="link-url">
-                {{ link.url }}
-              </div>
-            </div>
-
-            <!-- DELETE BUTTON -->
-          <button
-              class="link-more"
+            <!-- DELETE BUTTON OUTSIDE LINK AREA -->
+            <button
+              class="link-delete"
               title="Delete"
               (click)="askDelete(link, $event)"
             >
-              ⋮
-          </button>
+              🗑️
+            </button>
 
-          </a>
-
+          </div>
         </div>
 
         <ng-template #emptyState>
-          <div class="empty">
-            No links here yet. Use the <b>+</b> button to add one.
-          </div>
+          <div class="empty">No links here yet. Use the <b>+</b> button.</div>
         </ng-template>
 
       </ng-container>
     </section>
+
   </main>
 
   <!-- Floating Action Button -->
@@ -123,44 +120,31 @@
     <button (click)="openAddFolder()">New folder</button>
   </div>
 
-  <!-- SIMPLE DIALOG OVERLAY -->
+  <!-- ADD FOLDER / LINK DIALOG -->
   <div class="dialog-backdrop" *ngIf="showAddFolder || showAddLink">
     <div class="dialog">
       <h3 *ngIf="showAddFolder">New folder</h3>
       <h3 *ngIf="showAddLink">Add link</h3>
 
+      <!-- FOLDER INPUT -->
       <ng-container *ngIf="showAddFolder">
-        <input
-          type="text"
-          placeholder="Folder name"
-          [(ngModel)]="newFolderName"
-        />
+        <input type="text" placeholder="Folder name" [(ngModel)]="newFolderName" />
       </ng-container>
 
+      <!-- LINK INPUT -->
       <ng-container *ngIf="showAddLink">
-        <input
-          type="url"
-          placeholder="Paste link URL"
-          [(ngModel)]="newLinkUrl"
-        />
+        <input type="url" placeholder="Paste link URL" [(ngModel)]="newLinkUrl" />
       </ng-container>
 
       <div class="dialog-actions">
         <button class="text-btn" (click)="closeDialogs()">Cancel</button>
-        <button
-          class="primary-btn"
-          *ngIf="showAddFolder"
-          (click)="createFolder()"
-        >
-          Create
-        </button>
-        <button class="primary-btn" *ngIf="showAddLink" (click)="createLink()">
-          Save
-        </button>
+        <button class="primary-btn" *ngIf="showAddFolder" (click)="createFolder()">Create</button>
+        <button class="primary-btn" *ngIf="showAddLink" (click)="createLink()">Save</button>
       </div>
     </div>
   </div>
 
+  <!-- DELETE CONFIRM -->
   <div class="dialog-backdrop" *ngIf="showDeleteConfirm">
     <div class="dialog small">
       <h3>Delete link?</h3>

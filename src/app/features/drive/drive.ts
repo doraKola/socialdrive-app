@@ -1,38 +1,41 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
+
 import { LinksService } from '../../core/services/links.service';
 import { FoldersService } from '../../core/services/folders.service';
 
 @Component({
   selector: 'app-drive',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe],
   templateUrl: './drive.html',
-  styleUrl: './drive.scss'
+  styleUrl: './drive.scss',
 })
 export class Drive {
 
   folders: any[] = [];
   links: any[] = [];
+
   selectedFolderId: string | null = null;
-  showDeleteConfirm = false;
-  linkToDelete: any = null;
+  selectedFolderName: string = 'All Links';
 
-
-  // UI states
   isLoading = false;
-  fabOpen = false;
 
+  // Dialog controls
+  fabOpen = false;
   showAddFolder = false;
   showAddLink = false;
+  showDeleteConfirm = false;
 
   newFolderName = '';
   newLinkUrl = '';
 
+  pendingDeleteLinkId: string | null = null;
+
   constructor(
-    private linksService: LinksService,
-    private foldersService: FoldersService
+    private foldersService: FoldersService,
+    private linksService: LinksService
   ) {}
 
   ngOnInit() {
@@ -40,99 +43,127 @@ export class Drive {
     this.loadLinks();
   }
 
+  trackById(index: number, item: any) {
+    return item.id;
+  }
+
+  /** -----------------------------
+   *          LOADERS
+   * ----------------------------- */
+
   loadFolders() {
-    this.foldersService.getFolders().subscribe(folders => {
-      this.folders = folders;
+    this.foldersService.getFolders().subscribe(f => {
+      this.folders = f;
     });
   }
 
   loadLinks() {
     this.isLoading = true;
-    this.linksService.getLinks(this.selectedFolderId).subscribe({
-      next: (links) => {
+
+    this.linksService
+      .getLinks(this.selectedFolderId)
+      .subscribe(links => {
         this.links = links;
         this.isLoading = false;
-      },
-      error: () => (this.isLoading = false)
-    });
+      });
   }
+
+  /** -----------------------------
+   *         FOLDERS
+   * ----------------------------- */
 
   selectFolder(folder: any | null) {
     this.selectedFolderId = folder ? folder.id : null;
+    this.selectedFolderName = folder ? folder.name : 'All Links';
     this.loadLinks();
   }
 
-  get selectedFolderName() {
-    if (!this.selectedFolderId) return 'All links';
-    const f = this.folders.find(x => x.id === this.selectedFolderId);
-    return f ? f.name : 'Folder';
-  }
-
-  trackById(_: number, item: any) {
-    return item.id;
-  }
-
   openAddFolder() {
+    this.closeFab();
     this.showAddFolder = true;
-  }
-
-  openAddLink() {
-    this.showAddLink = true;
-  }
-
-  closeDialogs() {
-    this.showAddFolder = false;
-    this.showAddLink = false;
-    this.newFolderName = '';
-    this.newLinkUrl = '';
   }
 
   createFolder() {
     if (!this.newFolderName.trim()) return;
+
     this.foldersService.createFolder(this.newFolderName).subscribe(() => {
+      this.newFolderName = '';
       this.closeDialogs();
       this.loadFolders();
     });
   }
 
+  /** -----------------------------
+   *         LINKS
+   * ----------------------------- */
+
+  openAddLink() {
+    this.closeFab();
+    this.showAddLink = true;
+  }
+
   createLink() {
     if (!this.newLinkUrl.trim()) return;
 
-    this.linksService.createLink({
+    const payload = {
       url: this.newLinkUrl,
       folderId: this.selectedFolderId
-    }).subscribe(() => {
+    };
+
+    this.linksService.createLink(payload as any).subscribe(() => {
+      this.newLinkUrl = '';
       this.closeDialogs();
       this.loadLinks();
     });
   }
 
-  askDelete(link: any, event: Event) {
-  event.stopPropagation();
-  this.linkToDelete = link;
-  this.showDeleteConfirm = true;
-}
+  openLink(link: any) {
+    window.open(link.url, '_blank');
+  }
 
-confirmDelete() {
-  if (!this.linkToDelete) return;
+  /** -----------------------------
+   *     DELETE CONFIRMATION
+   * ----------------------------- */
 
-  this.linksService.deleteLink(this.linkToDelete.id).subscribe(() => {
+  askDelete(link: any, event: MouseEvent) {
+    event.stopPropagation();
+    this.pendingDeleteLinkId = link.id;
+    this.showDeleteConfirm = true;
+  }
+
+  cancelDelete() {
+    this.pendingDeleteLinkId = null;
     this.showDeleteConfirm = false;
-    this.linkToDelete = null;
-    this.loadLinks();
-  });
-}
+  }
 
-cancelDelete() {
-  this.showDeleteConfirm = false;
-  this.linkToDelete = null;
-}
+  confirmDelete() {
+    if (!this.pendingDeleteLinkId) return;
+
+    this.linksService.deleteLink(this.pendingDeleteLinkId).subscribe(() => {
+      this.pendingDeleteLinkId = null;
+      this.showDeleteConfirm = false;
+      this.loadLinks();
+    });
+  }
+
+  /** -----------------------------
+   *        FAB MENU
+   * ----------------------------- */
 
   toggleFabMenu() {
     this.fabOpen = !this.fabOpen;
   }
 
-  openLink(link: any) {
-    window.open(link.url, '_blank');
+  closeFab() {
+    this.fabOpen = false;
+  }
+
+  /** -----------------------------
+   *        DIALOG CONTROL
+   * ----------------------------- */
+
+  closeDialogs() {
+    this.showAddFolder = false;
+    this.showAddLink = false;
   }
 }

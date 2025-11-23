@@ -1,18 +1,29 @@
+/* ROOT PAGE LAYOUT */
 .drive-shell {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background: #fafafa;
+  width: 100%;
+  background: #f8f9fb;
+  min-height: 100vh;
+}
+
+/* CONTENT CONTAINER */
+.drive-main {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;        /* centers the content */
+  padding: 20px 30px;
 }
 
 /* HEADER */
 .drive-header {
-  height: 64px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 30px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  background: white;
-  border-bottom: 1px solid #ddd;
+  gap: 20px;
 }
 
 .logo {
@@ -20,46 +31,43 @@
   font-weight: bold;
 }
 
-.search-bar {
-  margin-left: 40px;
-  flex: 1;
-}
-
 .search-bar input {
-  width: 100%;
-  padding: 10px 12px;
+  width: 300px;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
-/* MAIN */
-.drive-main {
-  padding: 20px;
-  overflow-y: auto;
-}
-
-/* SECTION HEADER */
+/* SECTION TITLE */
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin: 25px 0 10px;
 }
 
-/* FOLDERS GRID */
+.section-header h2 {
+  font-size: 22px;
+  margin: 0;
+}
+
+/************* FOLDERS *************/
 .folder-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .folder-card {
-  background: white;
-  border-radius: 10px;
-  padding: 16px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #fff;
   border: 1px solid #ddd;
+  font-size: 14px;
   cursor: pointer;
-  text-align: center;
+  transition: 0.15s;
 }
 
 .folder-card:hover {
@@ -67,185 +75,180 @@
 }
 
 .folder-card--active {
-  border-color: #0066ff;
-  background: #e9f0ff;
+  border-color: #4A6CF7;
+  background: #e9edff;
 }
 
-/* LINKS GRID */
+.folder-name {
+  white-space: nowrap;
+}
+
+/************* LINKS GRID *************/
 .link-grid {
-  margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
 }
 
-/* LINK CARD */
+/************* LINK CARD *************/
 .link-card {
   display: block;
-  background: white;
-  border: 1px solid #ddd;
+  background: #fff;
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
-  cursor: pointer;
-  position: relative;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .link-card:hover {
-  background: #f5f5f5;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
 
-.link-card * {
-  pointer-events: none;
-}
-
-.link-more {
-  pointer-events: auto !important;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-/* LINK IMAGE */
+/* IMAGE */
 .link-image {
-  height: 140px;
+  width: 100%;
+  height: 180px;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .link-image--empty {
-  background: #ddd;
+  background: #e9e9e9;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 42px;
+  color: #666;
 }
 
-.link-initial {
-  font-size: 32px;
-  opacity: 0.4;
-}
-
-/* LINK TEXT */
+/* TEXT */
 .link-body {
-  padding: 12px;
+  padding: 14px;
 }
 
 .link-title {
   font-weight: 600;
+  font-size: 15px;
   margin-bottom: 4px;
 }
 
 .link-url {
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
+  word-break: break-word;
 }
 
-/* FAB button */
+/* DELETE BUTTON */
+.delete-btn {
+  background: #eee;
+  border: none;
+  padding: 6px 12px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  border-top: 1px solid #ddd;
+}
+
+.delete-btn:hover {
+  background: #ddd;
+}
+
+/************* FAB *************/
 .fab {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 28px;
+  right: 28px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #3f51b5;
-  color: white;
-  font-size: 32px;
+  font-size: 28px;
   border: none;
-  cursor: pointer;
+  background: #4A6CF7;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-  z-index: 200;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* FAB MENU (the popup) */
 .fab-menu {
   position: fixed;
-  bottom: 90px;       /* 👈 moves menu above the + button */
-  right: 24px;        /* 👈 aligns menu with FAB */
+  bottom: 100px;
+  right: 28px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 199;
 }
 
 .fab-menu button {
-  background: white;
-  border: 1px solid #ddd;
   padding: 10px 16px;
   border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ccc;
   cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .fab-menu button:hover {
   background: #f5f5f5;
 }
 
-/* Dialog */
+/************* DIALOG *************/
 .dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.32);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .dialog {
-  background: white;
+  width: 350px;
+  background: #fff;
   padding: 20px;
   border-radius: 12px;
-  width: 300px;
-}
-
-.dialog-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.primary-btn {
-  background: #007bff;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.text-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #007bff;
 }
 
 .dialog.small {
-  max-width: 340px;
+  width: 300px;
 }
 
-.dialog p {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #666;
+.dialog input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 14px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.primary-btn {
+  background: #4A6CF7;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
 }
 
 .primary-btn.danger {
-  background: #e53935;
-  color: #fff;
+  background: #D9534F;
 }
 
-.primary-btn.danger:hover {
-  background: #c62828;
+.text-btn {
+  background: transparent;
+  border: none;
+  color: #555;
+  cursor: pointer;
 }
-
