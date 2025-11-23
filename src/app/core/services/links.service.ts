@@ -1,22 +1,30 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Link } from '../../shared/models/link.model';
+import { Link, CreateLinkRequest } from '../../shared/models/link.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LinksService {
-
-  private apiUrl = 'https://localhost:7287/api'; // your API base URL
+  
+  private apiUrl = 'https://localhost:7287/api/links';
 
   constructor(private http: HttpClient) {}
 
-  getLinks(): Observable<Link[]> {
-    return this.http.get<Link[]>(`${this.apiUrl}/links`);
+  getLinks(folderId?: string | null): Observable<Link[]> {
+    const url = folderId 
+      ? `${this.apiUrl}?folderId=${folderId}`
+      : this.apiUrl;
+
+    return this.http.get<Link[]>(url);
   }
 
-  addLink(link: Link): Observable<Link> {
-    return this.http.post<Link>(`${this.apiUrl}/links`, link);
+  createLink(request: CreateLinkRequest): Observable<Link> {
+    return this.http.post<Link>(this.apiUrl, request);
+  }
+
+  deleteLink(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

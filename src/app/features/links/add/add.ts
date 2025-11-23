@@ -26,7 +26,7 @@ export class Add {
   ) {}
 
   submit() {
-    this.linksService.addLink(this.model).subscribe({
+    this.linksService.createLink(this.model).subscribe({
       next: () => this.router.navigate(['/links']),
       error: (err) => console.error('Add failed:', err)
     });

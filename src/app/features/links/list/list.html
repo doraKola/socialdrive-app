@@ -1,17 +1,20 @@
-<h1 class="page-title">Your Saved Links</h1>
+<a class="link-card"
+   *ngFor="let link of links$ | async"
+   [href]="link.url"
+   target="_blank"
+   rel="noopener noreferrer">
 
-<div class="cards-grid">
-  @for (link of links; track link.id) {
-    <div class="card">
-      <img [src]="link.imageUrl" alt="preview" />
-      <div class="info">
-        <h3>{{ link.title }}</h3>
-        <p>{{ link.description }}</p>
+  <div class="preview">
+    
+    <img class="preview-image"
+         [src]="link.imageUrl"
+         *ngIf="link.imageUrl" />
 
-        <a [href]="link.url" target="_blank" class="open-btn">
-          Open
-        </a>
-      </div>
+    <div class="preview-text">
+      <div class="title">{{ link.title }}</div>
+      <div class="description">{{ link.description }}</div>
+      <div class="url">{{ link.url }}</div>
     </div>
-  }
-</div>
+
+  </div>
+</a>

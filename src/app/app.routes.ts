@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
-import { ListComponent } from './features/links/list/list';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'links', pathMatch: 'full' },
-  { path: 'links', component: ListComponent },
-  { path: 'links/add', loadComponent: () => import('./features/links/add/add').then(m => m.Add) },
+  {
+    path: 'drive',
+    loadComponent: () =>
+      import('./features/drive/drive').then((m) => m.Drive),
+  },
+  { path: '', pathMatch: 'full', redirectTo: 'drive' },
+  { path: '**', redirectTo: 'drive' },
 ];

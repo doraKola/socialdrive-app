@@ -1,27 +1,14 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { LinksService } from '../../../core/services/links.service';
-import { Link } from '../../../shared/models/link.model';
+import { AsyncPipe, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-link-list',
+  selector: 'links-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgFor, AsyncPipe],
   templateUrl: './list.html',
-  styleUrls: ['./list.scss']
 })
-export class ListComponent {
-
-  links: Link[] = [];
-
-  constructor(private linksService: LinksService) {}
-
-  ngOnInit(): void {
-    this.linksService.getLinks().subscribe({
-      next: (res: Link[]) => {
-        this.links = res;
-      },
-      error: (err) => console.error(err)
-    });
-  }
+export class List {
+  private service = inject(LinksService);
+  links$ = this.service.getLinks();
 }
