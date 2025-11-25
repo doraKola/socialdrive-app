@@ -15,39 +15,14 @@
   <main class="drive-main">
 
     <!-- FOLDERS -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Folders</h2>
-        <button class="text-btn" (click)="openAddFolder()">+ New folder</button>
-      </div>
-
-      <div class="folder-grid">
-        
-        <!-- ALL LINKS -->
-        <button
-          class="folder-card"
-          [class.folder-card--active]="!selectedFolderId"
-          (click)="selectFolder(null)"
-        >
-          <div class="folder-icon root"></div>
-          <div class="folder-name">All links</div>
-        </button>
-
-        <!-- USER FOLDERS -->
-        <button
-          class="folder-card"
-          *ngFor="let folder of folders; trackBy: trackById"
-          [class.folder-card--active]="selectedFolderId === folder.id"
-          (click)="selectFolder(folder)"
-        >
-          <div class="folder-icon"></div>
-          <div class="folder-name" [title]="folder.name">
-            {{ folder.name }}
-          </div>
-        </button>
-
-      </div>
-    </section>
+    <aside class="sidebar">
+      <app-folders
+        [folders]="folders"
+        [selectedFolderId]="selectedFolderId"
+        (folderSelected)="selectFolder($event)"
+        (createNewFolder)="openAddFolder()"
+      ></app-folders>
+    </aside>
 
     <!-- LINKS -->
     <section class="section">

@@ -4,11 +4,12 @@ import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 
 import { LinksService } from '../../core/services/links.service';
 import { FoldersService } from '../../core/services/folders.service';
+import { FoldersComponent } from '../../shared/components/folders/folders.component';
 
 @Component({
   selector: 'app-drive',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe],
+  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe, FoldersComponent],
   templateUrl: './drive.html',
   styleUrl: './drive.scss',
 })
