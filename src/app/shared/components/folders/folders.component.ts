@@ -23,6 +23,8 @@ export class FoldersComponent {
   /** Emit when user clicks + New Folder */
   @Output() createNewFolder = new EventEmitter<void>();
 
+  @Output() deleteFolderEvent = new EventEmitter<Folder | null>();
+
   trackById(index: number, item: any) {
     return item.id;
   }
@@ -33,5 +35,9 @@ export class FoldersComponent {
 
   newFolder() {
     this.createNewFolder.emit();
+  }
+
+  deleteFolder(folder: Folder | null) {
+    this.deleteFolderEvent.emit(folder);
   }
 }

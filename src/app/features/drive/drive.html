@@ -20,6 +20,7 @@
         [folders]="folders"
         [selectedFolderId]="selectedFolderId"
         (folderSelected)="selectFolder($event)"
+        (deleteFolderEvent)="askDeleteFolder($event)"
         (createNewFolder)="openAddFolder()"
       ></app-folders>
     </aside>
@@ -56,6 +57,7 @@
               [folders]="subFolders"
               [selectedFolderId]="selectedsubFolderId"
               (folderSelected)="selectSubFolder($event)"
+              (deleteFolderEvent)="askDeleteSubFolder($event)"
             ></app-folders>
          </aside>
 

@@ -1,32 +1,44 @@
-<section class="folders-section">
-  <div class="folder-grid">
+<div class="folder-grid">
 
-    <!-- ALL LINKS -->
+  <!-- ALL LINKS -->
+  <button
+    class="folder-card"
+    [class.folder-card--active]="!selectedFolderId"
+    (click)="select(null)"
+  >
+    <div class="folder-icon closed"></div>
+    <div class="folder-name">All links</div>
     <button
-      class="folder-card"
-      [class.folder-card--active]="!selectedFolderId"
-      (click)="select(null)"
+      class="folder-delete"
+      (click)="deleteFolder(null); $event.stopPropagation()"
     >
-      <div class="folder-name">All links</div>
+      🗑️
     </button>
+  </button>
 
-    <!-- USER FOLDERS -->
+  <!-- USER FOLDERS -->
+  <button
+    class="folder-card"
+    *ngFor="let folder of folders; trackBy: trackById"
+    [class.folder-card--active]="selectedFolderId === folder.id"
+    (click)="select(folder)"
+  >
+    <div
+      class="folder-icon"
+      [ngClass]="{
+        open: selectedFolderId === folder.id,
+        closed: selectedFolderId !== folder.id
+      }"
+    ></div>
+
+    <div class="folder-name">{{ folder.name }}</div>
+
     <button
-      class="folder-card"
-      *ngFor="let folder of folders; trackBy: trackById"
-      [class.folder-card--active]="selectedFolderId === folder.id"
-      (click)="select(folder)"
+      class="folder-delete"
+      (click)="deleteFolder(folder); $event.stopPropagation()"
     >
-      <div
-        class="folder-icon"
-        [ngClass]="{
-          open: selectedFolderId === folder.id,
-          closed: selectedFolderId !== folder.id
-        }"
-      ></div>
-
-      <div class="folder-name">{{ folder.name }}</div>
+      🗑️
     </button>
+  </button>
 
-  </div>
-</section>
+</div>
