@@ -19,8 +19,8 @@ export class FoldersService {
       return this.http.get<Folder[]>(url);
   }
 
-  createFolder(name: string): Observable<Folder> {
-    return this.http.post<Folder>(this.baseUrl, { name });
+  createFolder(folder: any): Observable<Folder> {
+    return this.http.post<Folder>(this.baseUrl, folder);
   }
 
   getFolderParents(folderId: string) {

@@ -5,6 +5,7 @@ import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 import { LinksService } from '../../core/services/links.service';
 import { FoldersService } from '../../core/services/folders.service';
 import { FoldersComponent } from '../../shared/components/folders/folders.component';
+import { Folder } from '../../shared/models/folder.model';
 
 @Component({
   selector: 'app-drive',
@@ -85,7 +86,7 @@ export class Drive {
    * ----------------------------- */
 
   selectFolder(folder: any | null) {
-    if (folder.isMain == null || folder.isMain == true)
+    if (folder == null || folder.isMain == null || folder.isMain == true)
     {
       this.selectedFolderId = folder ? folder.id : null;
       this.selectedFolderName = folder ? folder.name : 'All Links';
@@ -127,10 +128,16 @@ export class Drive {
   createFolder() {
     if (!this.newFolderName.trim()) return;
 
-    this.foldersService.createFolder(this.newFolderName).subscribe(() => {
+    var selectdFolder =  this.selectedsubFolderId ?? this.selectedFolderId;
+
+    this.foldersService.createFolder({ name: this.newFolderName, parentId: selectdFolder}).subscribe(() => {
       this.newFolderName = '';
       this.closeDialogs();
       this.loadFolders();
+      if (this.selectedFolderId == null)
+        this.loadFolders(selectdFolder);
+      else
+        this.loadSubFolders(selectdFolder);
     });
   }
 
