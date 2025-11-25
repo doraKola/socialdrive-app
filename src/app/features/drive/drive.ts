@@ -86,29 +86,46 @@ export class Drive {
    * ----------------------------- */
 
   selectFolder(folder: any | null) {
-    if (folder == null || folder.isMain == null || folder.isMain == true)
-    {
-      this.selectedFolderId = folder ? folder.id : null;
-      this.selectedFolderName = folder ? folder.name : 'All Links';
-    }
-    this.selectedSubFolderName = null;
-    this.selectedsubFolderId = null    
-    const prevCrumb = this.getPreviousBreadcrumb(folder.id);
-    this.breadcrumbs = null;    
-    
-    if (folder.isMain == undefined || folder.isMain)
-    {
-      this.loadSubFolders(folder.id);
-      this.loadLinks(folder.id);
-    }
-    else
-    {
-      this.loadSubFolders(prevCrumb.id);
-      this.loadLinks(prevCrumb.id);
-    }
 
-    
+  // 1) MAIN FOLDER (folder.isMain = true OR no isMain at all)
+  if (!folder || folder.isMain === true || folder.isMain === undefined) {
+
+    this.selectedFolderId = folder ? folder.id : null;
+    this.selectedFolderName = folder ? folder.name : 'All Links';
+
+    // reset subfolder state
+    this.selectedsubFolderId = null;
+    this.selectedSubFolderName = null;
+
+    // reset breadcrumbs
+    this.breadcrumbs = null;
+
+    // load children
+    this.loadSubFolders(folder ? folder.id : null);
+    this.loadLinks(folder ? folder.id : null);
+
+    return;
   }
+
+  // 2) SUBFOLDER selection
+  if (folder.isMain === false) {
+
+    this.selectedsubFolderId = folder.id;
+    this.selectedSubFolderName = folder.name;
+
+    // load breadcrumbs
+    this.foldersService.getFolderParents(folder.id).subscribe(f => {
+      this.breadcrumbs = f;
+    });
+
+    // load its children + links
+    this.loadSubFolders(folder.id);
+    this.loadLinks(folder.id);
+
+    return;
+  }
+}
+
 
   selectSubFolder(folder: any | null) {
     this.selectedsubFolderId = folder ? folder.id : null;
