@@ -164,13 +164,13 @@ export class Drive {
 
     const payload = {
       url: this.newLinkUrl,
-      folderId: this.selectedFolderId
+      folderId: this.selectedsubFolderId ?? this.selectedFolderId
     };
 
     this.linksService.createLink(payload as any).subscribe(() => {
       this.newLinkUrl = '';
       this.closeDialogs();
-      this.loadLinks(null);
+      this.loadLinks(this.selectedsubFolderId ?? this.selectedFolderId);
     });
   }
 
