@@ -1,50 +1,106 @@
-.section {
-  margin-bottom: 24px;
-}
-
-.section-header {
+/* ------------------------------------
+   Folder Section Container
+------------------------------------- */
+.folders-section {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  justify-content: flex-start;
 }
 
+
+/* ------------------------------------
+   Grid for Folders (horizontal row)
+------------------------------------- */
 .folder-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 0;
 }
 
+
+/* ------------------------------------
+   Folder Card Styling
+------------------------------------- */
 .folder-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 16px;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: #f3f4f6;
+  padding: 14px 20px;
+  border-radius: 16px;
+
   cursor: pointer;
   border: 1px solid transparent;
-  transition: 0.2s;
+  min-width: 160px;
+  height: 54px;
+
+  transition: 0.2s ease;
+
+  &:hover {
+    background: #e9eaec;
+  }
+
+  &.folder-card--active {
+    border-color: #4b7bec;
+    background: #eaf2ff;
+  }
 }
 
-.folder-card--active {
-  border-color: #4b7bec;
-  background: #eef4ff;
-}
 
+/* ------------------------------------
+   ICONS (open/closed)
+------------------------------------- */
 .folder-icon {
-  width: 36px;
-  height: 28px;
-  background: url('/assets/icons/folder.svg') no-repeat center;
+  width: 28px;
+  height: 24px;
   background-size: contain;
-  margin-bottom: 8px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &.closed {
+    background-image: url('../../../../assets/icons/folder-close.svg');
+  }
+
+  &.open {
+    background-image: url('../../../../assets/icons/folder-open.svg');
+  }
 }
 
-.folder-icon.root {
-  background: url('/assets/icons/home.svg') no-repeat center;
-  background-size: contain;
-}
 
+/* ------------------------------------
+   Folder Name
+------------------------------------- */
 .folder-name {
-  font-size: 14px;
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+
+/* ------------------------------------
+   Responsive for Mobile
+------------------------------------- */
+@media (max-width: 600px) {
+  .folder-card {
+    min-width: 140px;
+    height: 48px;
+    padding: 12px 16px;
+  }
+
+  .folder-icon {
+    width: 24px;
+    height: 20px;
+  }
+
+  .folder-name {
+    font-size: 14px;
+  }
 }

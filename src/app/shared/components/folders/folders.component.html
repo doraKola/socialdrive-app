@@ -1,9 +1,4 @@
-<section class="section">
-  <div class="section-header">
-    <h2>Folders</h2>
-    <button class="text-btn" (click)="newFolder()">+ New folder</button>
-  </div>
-
+<section class="folders-section">
   <div class="folder-grid">
 
     <!-- ALL LINKS -->
@@ -12,7 +7,7 @@
       [class.folder-card--active]="!selectedFolderId"
       (click)="select(null)"
     >
-      <div class="folder-icon root"></div>
+      <div class="folder-icon closed"></div>
       <div class="folder-name">All links</div>
     </button>
 
@@ -23,10 +18,15 @@
       [class.folder-card--active]="selectedFolderId === folder.id"
       (click)="select(folder)"
     >
-      <div class="folder-icon"></div>
-      <div class="folder-name" [title]="folder.name">
-        {{ folder.name }}
-      </div>
+      <div
+        class="folder-icon"
+        [ngClass]="{
+          open: selectedFolderId === folder.id,
+          closed: selectedFolderId !== folder.id
+        }"
+      ></div>
+
+      <div class="folder-name">{{ folder.name }}</div>
     </button>
 
   </div>
