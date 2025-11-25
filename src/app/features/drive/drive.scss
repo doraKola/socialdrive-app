@@ -41,9 +41,10 @@
 /* SECTION TITLE */
 .section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 25px 0 10px;
+  gap: 12px;
+  margin-top: 25px;
+  margin-bottom: 18px; /* זה העיקרי */
 }
 
 .section-header h2 {

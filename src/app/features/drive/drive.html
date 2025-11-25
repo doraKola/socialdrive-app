@@ -26,9 +26,26 @@
 
     <!-- LINKS -->
     <section class="section">
+
       <div class="section-header">
-        <h2>{{ selectedFolderName }}</h2>
-      </div>
+  
+        <nav class="drive-breadcrumbs" *ngIf="breadcrumbs?.length">
+          <span
+            class="crumb"
+            *ngFor="let bc of breadcrumbs; let last = last"
+            (click)="selectFolder(bc)"
+          >
+            {{ bc.name }}
+            <span *ngIf="!last" class="separator">›</span>
+          </span>
+          >
+        </nav>
+
+        <span class="current-folder">
+          {{ selectedSubFolderName || selectedFolderName }}
+        </span>
+
+    </div>
 
       <div *ngIf="isLoading" class="info">Loading…</div>
 

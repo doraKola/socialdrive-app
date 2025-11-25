@@ -18,12 +18,13 @@ export class Drive {
   folders: any[] = [];
   subFolders: any[] = [];
   links: any[] = [];
+  breadcrumbs: any[] | null = null;
 
   selectedFolderId: string | null = null;
-  selectedFolderName: string = 'All Links';
+  selectedFolderName: string | null = null;
 
   selectedsubFolderId: string | null = null;
-  selectedSubFolderName: string = 'All Links';
+  selectedSubFolderName: string | null = null;
 
   isLoading = false;
 
@@ -84,16 +85,38 @@ export class Drive {
    * ----------------------------- */
 
   selectFolder(folder: any | null) {
-    this.selectedFolderId = folder ? folder.id : null;
-    this.selectedFolderName = folder ? folder.name : 'All Links';
-    this.loadSubFolders(folder.id);
-    this.loadLinks(this.selectedFolderId);
+    if (folder.isMain == null || folder.isMain == true)
+    {
+      this.selectedFolderId = folder ? folder.id : null;
+      this.selectedFolderName = folder ? folder.name : 'All Links';
+    }
+    this.selectedSubFolderName = null;
+    this.selectedsubFolderId = null    
+    const prevCrumb = this.getPreviousBreadcrumb(folder.id);
+    this.breadcrumbs = null;    
+    
+    if (folder.isMain == undefined || folder.isMain)
+    {
+      this.loadSubFolders(folder.id);
+      this.loadLinks(folder.id);
+    }
+    else
+    {
+      this.loadSubFolders(prevCrumb.id);
+      this.loadLinks(prevCrumb.id);
+    }
+
+    
   }
 
   selectSubFolder(folder: any | null) {
     this.selectedsubFolderId = folder ? folder.id : null;
-    this.selectedSubFolderName = folder ? folder.name : 'All Links';        
+    this.selectedSubFolderName = folder ? folder.name : 'All Links';    
+    this.foldersService.getFolderParents(folder.id).subscribe(f => {
+      this.breadcrumbs = f;
+    });    
     this.loadLinks(this.selectedsubFolderId);
+    this.loadSubFolders(this.selectedsubFolderId);
   }
 
   openAddFolder() {
@@ -111,6 +134,15 @@ export class Drive {
     });
   }
 
+  getPreviousBreadcrumb(folderId: string | null) {
+  if (!this.breadcrumbs || !folderId) return null;
+
+  const index = this.breadcrumbs.findIndex(bc => bc.id === folderId);
+  if (index <= 0) return null; // no previous
+
+  return this.breadcrumbs[index - 1];
+}
+  
   /** -----------------------------
    *         LINKS
    * ----------------------------- */

@@ -22,4 +22,9 @@ export class FoldersService {
   createFolder(name: string): Observable<Folder> {
     return this.http.post<Folder>(this.baseUrl, { name });
   }
+
+  getFolderParents(folderId: string) {
+    return this.http.get<any[]>(`${this.baseUrl}/${folderId}/parents`);
+  }
+
 }
