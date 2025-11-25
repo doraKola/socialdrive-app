@@ -87,44 +87,65 @@ export class Drive {
 
   selectFolder(folder: any | null) {
 
-  // 1) MAIN FOLDER (folder.isMain = true OR no isMain at all)
-  if (!folder || folder.isMain === true || folder.isMain === undefined) {
+  /** CASE 1: User clicked "All links" */
+  if (folder === null) {
 
-    this.selectedFolderId = folder ? folder.id : null;
-    this.selectedFolderName = folder ? folder.name : 'All Links';
+    this.selectedFolderId = null;
+    this.selectedFolderName = 'All Links';
 
-    // reset subfolder state
-    this.selectedsubFolderId = null;
-    this.selectedSubFolderName = null;
+    // CLEAR SUBFOLDERS COMPLETELY
+    this.subFolders = [];
 
-    // reset breadcrumbs
+    // CLEAR BREADCRUMBS
     this.breadcrumbs = null;
 
-    // load children
-    this.loadSubFolders(folder ? folder.id : null);
-    this.loadLinks(folder ? folder.id : null);
+    // LOAD ONLY LINKS OF ROOT
+    this.loadLinks(null);
 
     return;
   }
 
-  // 2) SUBFOLDER selection
+
+  /** CASE 2: User clicked a MAIN folder */
+  if (folder.isMain === true || folder.isMain === undefined) {
+
+    this.selectedFolderId = folder.id;
+    this.selectedFolderName = folder.name;
+
+    // Clear subfolder selection
+    this.selectedsubFolderId = null;
+    this.selectedSubFolderName = null;
+
+    // Main folders have no breadcrumbs
+    this.breadcrumbs = null;
+
+    // Load subfolders + links of this folder
+    this.loadSubFolders(folder.id);
+    this.loadLinks(folder.id);
+
+    return;
+  }
+
+
+  /** CASE 3: User clicked a SUBFOLDER */
   if (folder.isMain === false) {
 
     this.selectedsubFolderId = folder.id;
     this.selectedSubFolderName = folder.name;
 
-    // load breadcrumbs
+    // Load breadcrumbs for subfolder
     this.foldersService.getFolderParents(folder.id).subscribe(f => {
       this.breadcrumbs = f;
     });
 
-    // load its children + links
+    // Load deeper subfolders + links
     this.loadSubFolders(folder.id);
     this.loadLinks(folder.id);
 
     return;
   }
 }
+
 
 
   selectSubFolder(folder: any | null) {
