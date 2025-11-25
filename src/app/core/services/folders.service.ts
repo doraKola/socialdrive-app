@@ -27,4 +27,8 @@ export class FoldersService {
     return this.http.get<any[]>(`${this.baseUrl}/${folderId}/parents`);
   }
 
+  deleteFolder(id: string) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
 }

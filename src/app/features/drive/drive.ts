@@ -194,24 +194,27 @@ export class Drive {
   }
 
   askDeleteFolder(folder: Folder | null) {
-  if (!confirm(`Delete folder "${folder?.name}" and all its links?`)) return;
+    if (folder == null) return;
+    if (!confirm(`Delete folder "${folder?.name}" and all its links?`)) return;
 
-  // this.foldersService.deleteFolder(folder.id).subscribe(() => {
-  //   this.loadFolders();        
-  //   if (this.selectedFolderId === folder.id) {
-  //     this.selectedFolderId = null;
-  //     this.loadLinks(null);
-  //   }
-  // });
-}
+    this.foldersService.deleteFolder(folder.id).subscribe(() => {
+      this.loadFolders();        
+      if (this.selectedFolderId === folder.id) {
+        this.selectedFolderId = null;
+        this.loadLinks(null);
+      }
+    });
+  }
 
 askDeleteSubFolder(folder: Folder | null) {
+  if (folder == null) return;
+  
   if (!confirm(`Delete folder "${folder?.name}"?`)) return;
 
-  // this.foldersService.deleteFolder(folder.id).subscribe(() => {
-  //   this.loadSubFolders(this.selectedFolderId);
-  //   this.loadLinks(this.selectedFolderId);
-  // });
+  this.foldersService.deleteFolder(folder.id).subscribe(() => {
+    this.loadSubFolders(this.selectedFolderId);
+    this.loadLinks(this.selectedFolderId);
+  });
 }
 
   confirmDelete() {
