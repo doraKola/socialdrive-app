@@ -16,10 +16,14 @@ import { FoldersComponent } from '../../shared/components/folders/folders.compon
 export class Drive {
 
   folders: any[] = [];
+  subFolders: any[] = [];
   links: any[] = [];
 
   selectedFolderId: string | null = null;
   selectedFolderName: string = 'All Links';
+
+  selectedsubFolderId: string | null = null;
+  selectedSubFolderName: string = 'All Links';
 
   isLoading = false;
 
@@ -41,7 +45,7 @@ export class Drive {
 
   ngOnInit() {
     this.loadFolders();
-    this.loadLinks();
+    this.loadLinks(null);
   }
 
   trackById(index: number, item: any) {
@@ -52,17 +56,23 @@ export class Drive {
    *          LOADERS
    * ----------------------------- */
 
-  loadFolders() {
-    this.foldersService.getFolders().subscribe(f => {
+  loadFolders(parentId: string | null = null) {
+    this.foldersService.getFolders(parentId).subscribe(f => {
       this.folders = f;
     });
   }
 
-  loadLinks() {
+  loadSubFolders(parentId: string | null = null) {
+    this.foldersService.getFolders(parentId).subscribe(f => {
+      this.subFolders = f;
+    });
+  }
+
+  loadLinks(selectedFolder: string | null) {
     this.isLoading = true;
 
     this.linksService
-      .getLinks(this.selectedFolderId)
+      .getLinks(selectedFolder)
       .subscribe(links => {
         this.links = links;
         this.isLoading = false;
@@ -76,7 +86,14 @@ export class Drive {
   selectFolder(folder: any | null) {
     this.selectedFolderId = folder ? folder.id : null;
     this.selectedFolderName = folder ? folder.name : 'All Links';
-    this.loadLinks();
+    this.loadSubFolders(folder.id);
+    this.loadLinks(this.selectedFolderId);
+  }
+
+  selectSubFolder(folder: any | null) {
+    this.selectedsubFolderId = folder ? folder.id : null;
+    this.selectedSubFolderName = folder ? folder.name : 'All Links';        
+    this.loadLinks(this.selectedsubFolderId);
   }
 
   openAddFolder() {
@@ -114,7 +131,7 @@ export class Drive {
     this.linksService.createLink(payload as any).subscribe(() => {
       this.newLinkUrl = '';
       this.closeDialogs();
-      this.loadLinks();
+      this.loadLinks(null);
     });
   }
 
@@ -143,7 +160,7 @@ export class Drive {
     this.linksService.deleteLink(this.pendingDeleteLinkId).subscribe(() => {
       this.pendingDeleteLinkId = null;
       this.showDeleteConfirm = false;
-      this.loadLinks();
+      this.loadLinks(null);
     });
   }
 

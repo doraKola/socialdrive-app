@@ -34,8 +34,15 @@
 
       <ng-container *ngIf="!isLoading">
 
-        <div *ngIf="links.length; else emptyState" class="link-grid">
+        <aside class="sidebar">
+            <app-folders
+              [folders]="subFolders"
+              [selectedFolderId]="selectedsubFolderId"
+              (folderSelected)="selectSubFolder($event)"
+            ></app-folders>
+         </aside>
 
+        <div *ngIf="links.length; else emptyState" class="link-grid">
           <!-- CARD (now <div>, not <a>) -->
           <div
             class="link-card"
@@ -81,6 +88,8 @@
         <ng-template #emptyState>
           <div class="empty">No links here yet. Use the <b>+</b> button.</div>
         </ng-template>
+
+        
 
       </ng-container>
     </section>

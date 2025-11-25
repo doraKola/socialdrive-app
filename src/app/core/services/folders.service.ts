@@ -9,8 +9,14 @@ export class FoldersService {
 
   constructor(private http: HttpClient) {}
 
-  getFolders(): Observable<Folder[]> {
-    return this.http.get<Folder[]>(this.baseUrl);
+  getFolders(parentId: string | null = null): Observable<Folder[]> {
+      let url = this.baseUrl;
+
+      if (parentId) {
+        url += `?parentId=${parentId}`;
+      }
+
+      return this.http.get<Folder[]>(url);
   }
 
   createFolder(name: string): Observable<Folder> {
