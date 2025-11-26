@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'drive',
+    path: 'hub',
     loadComponent: () =>
-      import('./features/drive/drive').then((m) => m.Drive),
+      import('./features/drive/hub').then((m) => m.Hub),
   },
-  { path: '', pathMatch: 'full', redirectTo: 'drive' },
-  { path: '**', redirectTo: 'drive' },
+  { path: '', pathMatch: 'full', redirectTo: 'hub' },
+  { path: '**', redirectTo: 'hub' },
 ];

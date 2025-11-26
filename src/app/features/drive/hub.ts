@@ -10,13 +10,13 @@ import { Folder } from '../../shared/models/folder.model';
 import { SearchComponent } from '../../shared/components/search/search.component';
 
 @Component({
-  selector: 'app-drive',
+  selector: 'app-hub',
   standalone: true,
   imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe, FoldersComponent, LinkGridComponent, SearchComponent],
-  templateUrl: './drive.html',
-  styleUrl: './drive.scss',
+  templateUrl: './hub.html',
+  styleUrl: './hub.scss',
 })
-export class Drive {
+export class Hub {
 
   folders: any[] = [];
   subFolders: any[] = [];
