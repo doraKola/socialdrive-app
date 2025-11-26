@@ -1,0 +1,40 @@
+<div class="search-container">
+
+  <input
+    class="search-input"
+    type="text"
+    placeholder="Search links or folders…"
+    [(ngModel)]="searchQuery"
+    (input)="onSearchInput()"
+  />
+
+  <div class="search-panel"
+       *ngIf="searchOpen && (folderResults.length || linkResults.length)">
+
+    <!-- FOLDERS -->
+    <div class="search-group" *ngIf="folderResults.length">
+      <div class="search-group-title">Folders</div>
+
+      <div class="search-item"
+           *ngFor="let item of folderResults"
+           (click)="choose(item)">
+        <span class="search-icon">📁</span>
+        <span class="search-text">{{ item.name }}</span>
+      </div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="search-group" *ngIf="linkResults.length">
+      <div class="search-group-title">Links</div>
+
+      <div class="search-item"
+           *ngFor="let item of linkResults"
+           (click)="choose(item)">
+        <span class="search-icon">🔗</span>
+        <span class="search-text">{{ item.title || item.url }}</span>
+        <span class="search-subtext">{{ item.folderName }}</span>
+      </div>
+    </div>
+
+  </div>
+</div>

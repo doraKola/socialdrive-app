@@ -2,6 +2,7 @@
 
   <div
     class="link-card"
+    [class.highlight]="link.id === highlightedLinkId"
     *ngFor="let link of links; trackBy: trackById"
   >
     <!-- CLICK AREA -->

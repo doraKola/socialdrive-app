@@ -10,6 +10,7 @@ import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 })
 export class LinkGridComponent {
   @Input() links: any[] = [];
+  @Input() highlightedLinkId: string | null = null;
 
   @Output() open = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();

@@ -5,10 +5,7 @@
     <div class="logo">SocialDrive</div>
 
     <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Search in SocialDrive (not yet implemented)"
-      />
+       <app-search (selected)="onSearchSelect($event)"></app-search>
     </div>
   </header>
 
@@ -64,6 +61,7 @@
 
         <app-link-grid
             [links]="links"
+            [highlightedLinkId]="highlightedLinkId"
             (open)="openLink($event)"
             (delete)="askDelete($event)"
           >

@@ -7,11 +7,12 @@ import { FoldersService } from '../../core/services/folders.service';
 import { FoldersComponent } from '../../shared/components/folders/folders.component';
 import { LinkGridComponent } from '../../shared/components/link/link-grid.component';
 import { Folder } from '../../shared/models/folder.model';
+import { SearchComponent } from '../../shared/components/search/search.component';
 
 @Component({
   selector: 'app-drive',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe, FoldersComponent, LinkGridComponent],
+  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe, FoldersComponent, LinkGridComponent, SearchComponent],
   templateUrl: './drive.html',
   styleUrl: './drive.scss',
 })
@@ -290,4 +291,36 @@ askDeleteSubFolder(folder: Folder | null) {
     this.showAddFolder = false;
     this.showAddLink = false;
   }
+
+  /** -----------------------------
+   *        Search
+   * ----------------------------- */
+
+  onSearchSelect(item: any) {
+  // Folder selected
+  if (item.type === 'folder') {
+    this.selectFolder({ id: item.id, name: item.name, isMain: true });
+    return;
+  }
+
+  // Link selected → open containing folder
+  if (item.type === 'link') {
+    this.selectFolder({
+      id: item.folderId,
+      name: item.folderName,
+      isMain: true
+    });
+
+    // highlight link after load
+    setTimeout(() => this.highlightLink(item.id), 300);
+  }
+}
+
+highlightedLinkId: string | null = null;
+
+highlightLink(id: string) {
+  this.highlightedLinkId = id;
+  setTimeout(() => (this.highlightedLinkId = null), 1500);
+}
+
 }
