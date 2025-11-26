@@ -1,0 +1,41 @@
+<div *ngIf="links.length; else emptyState" class="link-grid">
+
+  <div
+    class="link-card"
+    *ngFor="let link of links; trackBy: trackById"
+  >
+    <!-- CLICK AREA -->
+    <div class="link-click-area" (click)="onOpen(link)">
+      <div
+        class="link-image"
+        [class.link-image--empty]="!link.imageUrl"
+        [style.background-image]="link.imageUrl ? 'url(' + link.imageUrl + ')' : 'none'"
+      >
+        <span *ngIf="!link.imageUrl" class="link-initial">
+          {{ (link.title || link.url) | slice : 0 : 1 }}
+        </span>
+      </div>
+
+      <div class="link-body">
+        <div class="link-title" [title]="link.title || link.url">
+          {{ link.title || link.url }}
+        </div>
+        <div class="link-url">{{ link.url }}</div>
+      </div>
+    </div>
+
+    <!-- DELETE BUTTON -->
+    <button
+      class="link-delete"
+      title="Delete"
+      (click)="onDelete(link, $event)"
+    >
+      🗑️
+    </button>
+  </div>
+
+</div>
+
+<ng-template #emptyState>
+  <div class="empty">No links here yet. Use the <b>+</b> button.</div>
+</ng-template>

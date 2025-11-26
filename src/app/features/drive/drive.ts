@@ -5,12 +5,13 @@ import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
 import { LinksService } from '../../core/services/links.service';
 import { FoldersService } from '../../core/services/folders.service';
 import { FoldersComponent } from '../../shared/components/folders/folders.component';
+import { LinkGridComponent } from '../../shared/components/link/link-grid.component';
 import { Folder } from '../../shared/models/folder.model';
 
 @Component({
   selector: 'app-drive',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe, FoldersComponent],
+  imports: [NgFor, NgIf, NgClass, FormsModule, SlicePipe, FoldersComponent, LinkGridComponent],
   templateUrl: './drive.html',
   styleUrl: './drive.scss',
 })
@@ -224,8 +225,7 @@ selectFolder(folder: any | null) {
    *     DELETE CONFIRMATION
    * ----------------------------- */
 
-  askDelete(link: any, event: MouseEvent) {
-    event.stopPropagation();
+  askDelete(link: any) {
     this.pendingDeleteLinkId = link.id;
     this.showDeleteConfirm = true;
   }
