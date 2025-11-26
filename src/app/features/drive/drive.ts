@@ -135,6 +135,7 @@ selectFolder(folder: any | null) {
   /** CASE 3: User clicked a SUBFOLDER */
   if (folder.isMain === false) {
 
+    this.selectedFolderId = null;
     this.selectedsubFolderId = folder.id;
     this.selectedSubFolderName = folder.name;
 
@@ -299,7 +300,7 @@ askDeleteSubFolder(folder: Folder | null) {
   onSearchSelect(item: any) {
   // Folder selected
   if (item.type === 'folder') {
-    this.selectFolder({ id: item.id, name: item.name, isMain: true });
+    this.selectFolder({ id: item.id, name: item.name, isMain: item.parentId == null });
     return;
   }
 
@@ -308,7 +309,7 @@ askDeleteSubFolder(folder: Folder | null) {
     this.selectFolder({
       id: item.folderId,
       name: item.folderName,
-      isMain: true
+      isMain: item.parentId == null
     });
 
     // highlight link after load
