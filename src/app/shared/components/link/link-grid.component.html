@@ -19,9 +19,9 @@
 
       <div class="link-body">
         <div class="link-title" [title]="link.title || link.url">
-          {{ link.title || link.url }}
+          {{ (link.title  || link.url) | truncateWords: 40:120}}
         </div>
-        <div class="link-url">{{ link.url }}</div>
+        <div class="link-url">   {{ link.url | truncateWords:40:120 }}</div>
       </div>
     </div>
 

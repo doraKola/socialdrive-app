@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
+import { TruncateWordsPipe } from '../../pipes/truncate-words.pipe';
 
 @Component({
   selector: 'app-link-grid',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, SlicePipe],
+  imports: [NgFor, NgIf, NgClass, SlicePipe, TruncateWordsPipe],
   templateUrl: './link-grid.component.html',
   styleUrls: ['./link-grid.component.scss']
 })

@@ -2,11 +2,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../../core/services/search.service';
+import { TruncateWordsPipe } from '../../pipes/truncate-words.pipe';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule],
+  imports: [NgIf, NgFor, FormsModule, TruncateWordsPipe],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
