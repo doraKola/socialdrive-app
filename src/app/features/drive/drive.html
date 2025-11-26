@@ -29,7 +29,8 @@
     <section class="section">
 
       <div class="section-header">
-  
+
+        <!-- BREADCRUMBS -->
         <nav class="drive-breadcrumbs" *ngIf="breadcrumbs?.length">
           <span
             class="crumb"
@@ -42,11 +43,11 @@
           >
         </nav>
 
+        <!-- CURRENT FOLDER TITLE -->
         <span class="current-folder">
           {{ selectedSubFolderName || selectedFolderName }}
         </span>
-
-    </div>
+      </div>
 
       <div *ngIf="isLoading" class="info">Loading…</div>
 

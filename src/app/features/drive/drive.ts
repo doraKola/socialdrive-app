@@ -85,26 +85,30 @@ export class Drive {
    *         FOLDERS
    * ----------------------------- */
 
-  selectFolder(folder: any | null) {
+  /** MAIN FOLDER CLICK */
+selectFolder(folder: any | null) {
 
-  /** CASE 1: User clicked "All links" */
+  /** CASE 1: User clicked “All links” */
   if (folder === null) {
 
     this.selectedFolderId = null;
     this.selectedFolderName = 'All Links';
 
-    // CLEAR SUBFOLDERS COMPLETELY
-    this.subFolders = [];
+    // Clear subfolder selection
+    this.selectedsubFolderId = null;
+    this.selectedSubFolderName = null;
 
-    // CLEAR BREADCRUMBS
+    // Clear breadcrumbs
     this.breadcrumbs = null;
 
-    // LOAD ONLY LINKS OF ROOT
+    // Clear subfolders
+    this.subFolders = [];
+
+    // Load root links
     this.loadLinks(null);
 
     return;
   }
-
 
   /** CASE 2: User clicked a MAIN folder */
   if (folder.isMain === true || folder.isMain === undefined) {
@@ -116,16 +120,15 @@ export class Drive {
     this.selectedsubFolderId = null;
     this.selectedSubFolderName = null;
 
-    // Main folders have no breadcrumbs
+    // Clear breadcrumbs
     this.breadcrumbs = null;
 
-    // Load subfolders + links of this folder
+    // Load children + links
     this.loadSubFolders(folder.id);
     this.loadLinks(folder.id);
 
     return;
   }
-
 
   /** CASE 3: User clicked a SUBFOLDER */
   if (folder.isMain === false) {
@@ -133,18 +136,19 @@ export class Drive {
     this.selectedsubFolderId = folder.id;
     this.selectedSubFolderName = folder.name;
 
-    // Load breadcrumbs for subfolder
+    // Load breadcrumbs
     this.foldersService.getFolderParents(folder.id).subscribe(f => {
       this.breadcrumbs = f;
     });
 
-    // Load deeper subfolders + links
+    // Load grandchildren + links
     this.loadSubFolders(folder.id);
     this.loadLinks(folder.id);
 
     return;
   }
 }
+
 
 
 

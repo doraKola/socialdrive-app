@@ -52,38 +52,6 @@
   margin: 0;
 }
 
-/************* FOLDERS *************/
-.folder-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.folder-card {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 16px;
-  border-radius: 8px;
-  background: #fff;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.15s;
-}
-
-.folder-card:hover {
-  background: #f2f2f2;
-}
-
-.folder-card--active {
-  border-color: #4A6CF7;
-  background: #e9edff;
-}
-
-.folder-name {
-  white-space: nowrap;
-}
-
 /************* LINKS GRID *************/
 .link-grid {
   display: grid;
