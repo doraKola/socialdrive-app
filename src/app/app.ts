@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,16 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.scss']
 })
 export class AppComponent {
+
   protected readonly title = signal('socialdrive-app');
+
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
 }
