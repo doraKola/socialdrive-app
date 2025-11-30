@@ -1,25 +1,28 @@
 <div class="auth-container">
-  <h2>Login</h2>
+  <h2 class="auth-title">Login</h2>
 
   <div class="auth-form">
     <input 
-      type="email" 
-      placeholder="Email" 
-      [(ngModel)]="email" 
+      type="email"
+      placeholder="Email address"
+      [(ngModel)]="email"
+      class="auth-input"
     />
 
     <input 
-      type="password" 
-      placeholder="Password" 
-      [(ngModel)]="password" 
+      type="password"
+      placeholder="Password"
+      [(ngModel)]="password"
+      class="auth-input"
     />
 
-    <button (click)="login()">Login</button>
+    <button class="auth-btn" (click)="login()">Login</button>
 
     <p class="error" *ngIf="error">{{ error }}</p>
 
     <div class="auth-links">
       <a routerLink="/forgot-password">Forgot password?</a>
+      <span class="divider">•</span>
       <a routerLink="/register">Create account</a>
     </div>
   </div>
