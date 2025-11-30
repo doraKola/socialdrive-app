@@ -43,4 +43,15 @@ export class AuthService {
   private setToken(token: string) {
     localStorage.setItem(this.tokenKey, token);
   }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${this.baseUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post(`${this.baseUrl}/reset-password`, { token, newPassword });
+  }
+
+
+  
 }
