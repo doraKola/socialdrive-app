@@ -8,7 +8,7 @@ import { Link, CreateLinkRequest } from '../../shared/models/link.model';
 })
 export class LinksService {
   
-  private apiUrl = 'https://localhost:7287/api/links';
+  private apiUrl = 'https://socialdrive-api-dwaee7cngkhrdjgw.israelcentral-01.azurewebsites.net/api/links';
 
   constructor(private http: HttpClient) {}
 

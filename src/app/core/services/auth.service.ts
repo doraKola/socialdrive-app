@@ -13,7 +13,7 @@ interface AuthResponse {
 })
 export class AuthService {
 
-  private baseUrl = 'https://localhost:7287/api/auth';
+  private baseUrl = 'https://socialdrive-api-dwaee7cngkhrdjgw.israelcentral-01.azurewebsites.net/api/auth';
   private tokenKey = 'auth_token';
 
   constructor(private http: HttpClient) {}

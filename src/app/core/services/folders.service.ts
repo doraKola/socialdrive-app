@@ -5,7 +5,7 @@ import { Folder } from '../../shared/models/folder.model';
 
 @Injectable({ providedIn: 'root' })
 export class FoldersService {
-  private readonly baseUrl = 'https://localhost:7287/api/folders';
+  private readonly baseUrl = 'https://socialdrive-api-dwaee7cngkhrdjgw.israelcentral-01.azurewebsites.net/api/folders';
 
   constructor(private http: HttpClient) {}
 

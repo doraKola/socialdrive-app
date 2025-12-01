@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SearchService {
 
-  private baseUrl = 'https://localhost:7287/api/search';
+  private baseUrl = 'https://socialdrive-api-dwaee7cngkhrdjgw.israelcentral-01.azurewebsites.net/api/search';
 
   constructor(private http: HttpClient) {}
 
