@@ -1,0 +1,33 @@
+<div class="settings-container">
+
+  <button class="close-btn" (click)="close()">✖</button>
+
+  <h2>Translation Settings</h2>
+
+  <div class="section">
+    <h3>App Language (UI)</h3>
+    <select [(ngModel)]="uiLanguage">
+      <option *ngFor="let lang of availableLanguages" 
+              [value]="lang.code">{{ lang.label }}</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <h3>Translate My Links To</h3>
+    <p>You can select {{ planLimit }} languages based on your plan.</p>
+
+    <div class="languages">
+      <label *ngFor="let lang of availableLanguages">
+        <input type="checkbox"
+               [checked]="allowedLanguages.includes(lang.code)"
+               (change)="toggleLanguage(lang.code)"
+        />
+        {{ lang.label }}
+      </label>
+    </div>
+  </div>
+
+  <button (click)="save()" class="save-btn">Save Settings</button>
+
+  <p class="message">{{ message }}</p>
+</div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { LinksService } from '../../core/services/links.service';
 import { FoldersService } from '../../core/services/folders.service';
@@ -44,7 +45,8 @@ export class Hub {
 
   constructor(
     private foldersService: FoldersService,
-    private linksService: LinksService
+    private linksService: LinksService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -54,6 +56,10 @@ export class Hub {
 
   trackById(index: number, item: any) {
     return item.id;
+  }
+
+  openSettings() {
+    this.router.navigate(['/settings/languages']);
   }
 
   /** -----------------------------
