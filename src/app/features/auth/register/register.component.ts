@@ -19,8 +19,21 @@ export class RegisterComponent {
 
   constructor(private auth: AuthService, private router: Router) {}
 
+  // --------------------------------------------
+  // Detect browser language (simple & accurate)
+  // --------------------------------------------
+  private getBrowserLanguage(): string {
+    const lang = navigator.language || navigator.languages?.[0] || 'en';
+    return lang.split('-')[0].toLowerCase(); // "en-US" → "en"
+  }
+
+  // --------------------------------------------
+  // Register user + send detectedLanguage to API
+  // --------------------------------------------
   register() {
-    this.auth.register(this.email, this.password)
+    const detectedLanguage = this.getBrowserLanguage();
+
+    this.auth.register(this.email, this.password, detectedLanguage)
       .subscribe({
         next: () => this.router.navigate(['/drive']),
         error: () => this.error = 'User already exists'

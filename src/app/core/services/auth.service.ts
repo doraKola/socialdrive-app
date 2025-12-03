@@ -18,9 +18,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  register(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, { email, password })
-      .pipe(tap(res => this.setToken(res.token)));
+  register(email: string, password: string, detectedLanguage: string) {
+    return this.http.post<any>(`${this.baseUrl}/register`, {
+      email,
+      password,
+      detectedLanguage
+    });
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
