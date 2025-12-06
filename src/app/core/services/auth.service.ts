@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 interface AuthResponse {
   token: string;
   email: string;
+  defaultLanguage: string;
 }
 
 @Injectable({

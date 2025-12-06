@@ -35,7 +35,10 @@ export class RegisterComponent {
 
     this.auth.register(this.email, this.password, detectedLanguage)
       .subscribe({
-        next: () => this.router.navigate(['/drive']),
+        next: (res) => {
+          localStorage.setItem("defaultLanguage", res.defaultLanguage);
+          this.router.navigate(['/drive']);
+        },
         error: () => this.error = 'User already exists'
       });
   }

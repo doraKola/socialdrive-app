@@ -23,7 +23,10 @@ export class LoginComponent {
   login() {
     this.auth.login(this.email, this.password)
       .subscribe({
-        next: () => this.router.navigate(['/drive']),
+        next: (res: any) => {
+            localStorage.setItem("defaultLanguage", res.defaultLanguage);
+            this.router.navigate(['/drive']);
+          },
         error: () => this.error = 'Invalid email or password'
       });
   }
